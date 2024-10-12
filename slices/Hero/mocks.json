@@ -1,0 +1,25 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"heading": {
+				"__TYPE__": "FieldContent",
+				"value": "in",
+				"type": "Text"
+			},
+			"body": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Occaecat aliquip aute sint commodo proident nostrud Lorem nostrud sit. Pariatur pariatur eiusmod Lorem in voluptate."
+						}
+					}
+				]
+			}
+		},
+		"items": []
+	}
+]
