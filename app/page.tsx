@@ -1,4 +1,11 @@
 import Image from "next/image";
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Zieyaad Moses',
+  description:
+    'Fullstack Developer.',
+};
 
 export default function Home() {
   return (
