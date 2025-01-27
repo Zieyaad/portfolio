@@ -4,49 +4,49 @@ import type * as prismic from "@prismicio/client";
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
-type HomeDocumentDataSlicesSlice = HeroSlice;
+type ContentPageDocumentDataSlicesSlice = RichTextSlice;
 
 /**
- * Content for Home documents
+ * Content for Content Page documents
  */
-interface HomeDocumentData {
+interface ContentPageDocumentData {
   /**
-   * Slice Zone field in *Home*
+   * Slice Zone field in *Content Page*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
-   * - **API ID Path**: home.slices[]
+   * - **API ID Path**: content_page.slices[]
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#slices
    */
-  slices: prismic.SliceZone<HomeDocumentDataSlicesSlice> /**
-   * Meta Title field in *Home*
+  slices: prismic.SliceZone<ContentPageDocumentDataSlicesSlice> /**
+   * Meta Title field in *Content Page*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A title of the page used for social media and search engines
-   * - **API ID Path**: home.meta_title
+   * - **API ID Path**: content_page.meta_title
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */;
   meta_title: prismic.KeyTextField;
 
   /**
-   * Meta Description field in *Home*
+   * Meta Description field in *Content Page*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A brief summary of the page
-   * - **API ID Path**: home.meta_description
+   * - **API ID Path**: content_page.meta_description
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   meta_description: prismic.KeyTextField;
 
   /**
-   * Meta Image field in *Home*
+   * Meta Image field in *Content Page*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
-   * - **API ID Path**: home.meta_image
+   * - **API ID Path**: content_page.meta_image
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/field#image
    */
@@ -54,131 +54,178 @@ interface HomeDocumentData {
 }
 
 /**
- * Home document from Prismic
+ * Content Page document from Prismic
  *
- * - **API ID**: `home`
+ * - **API ID**: `content_page`
  * - **Repeatable**: `true`
  * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type HomeDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithUID<Simplify<HomeDocumentData>, "home", Lang>;
-
-type StartDocumentDataSlicesSlice = HeroSlice;
+export type ContentPageDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<
+    Simplify<ContentPageDocumentData>,
+    "content_page",
+    Lang
+  >;
 
 /**
- * Content for Start documents
+ * Item in *Settings → Navigation*
  */
-interface StartDocumentData {
+export interface SettingsDocumentDataNavigationItem {
   /**
-   * Slice Zone field in *Start*
+   * Link field in *Settings → Navigation*
    *
-   * - **Field Type**: Slice Zone
+   * - **Field Type**: Link
    * - **Placeholder**: *None*
-   * - **API ID Path**: start.slices[]
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#slices
+   * - **API ID Path**: settings.navigation[].link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  slices: prismic.SliceZone<StartDocumentDataSlicesSlice> /**
-   * Meta Title field in *Start*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: A title of the page used for social media and search engines
-   * - **API ID Path**: start.meta_title
-   * - **Tab**: SEO & Metadata
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */;
-  meta_title: prismic.KeyTextField;
+  link: prismic.LinkField;
 
   /**
-   * Meta Description field in *Start*
+   * Label field in *Settings → Navigation*
    *
    * - **Field Type**: Text
-   * - **Placeholder**: A brief summary of the page
-   * - **API ID Path**: start.meta_description
-   * - **Tab**: SEO & Metadata
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.navigation[].label
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  label: prismic.KeyTextField;
+
+  /**
+   * CTA Button field in *Settings → Navigation*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: settings.navigation[].cta_button
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  cta_button: prismic.BooleanField;
+
+  /**
+   * Slug field in *Settings → Navigation*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.navigation[].slug
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  slug: prismic.KeyTextField;
+}
+
+/**
+ * Content for Settings documents
+ */
+interface SettingsDocumentData {
+  /**
+   * Site Title field in *Settings*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.site_title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  site_title: prismic.KeyTextField;
+
+  /**
+   * Meta Description field in *Settings*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.meta_description
+   * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   meta_description: prismic.KeyTextField;
 
   /**
-   * Meta Image field in *Start*
+   * Fallback OG Image field in *Settings*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
-   * - **API ID Path**: start.meta_image
-   * - **Tab**: SEO & Metadata
+   * - **API ID Path**: settings.fallback_og_image
+   * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#image
    */
-  meta_image: prismic.ImageField<never>;
+  fallback_og_image: prismic.ImageField<never>;
+
+  /**
+   * Navigation field in *Settings*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.navigation[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  navigation: prismic.GroupField<Simplify<SettingsDocumentDataNavigationItem>>;
 }
 
 /**
- * Start document from Prismic
+ * Settings document from Prismic
  *
- * - **API ID**: `start`
+ * - **API ID**: `settings`
  * - **Repeatable**: `false`
  * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type StartDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<Simplify<StartDocumentData>, "start", Lang>;
+export type SettingsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<SettingsDocumentData>,
+    "settings",
+    Lang
+  >;
 
-export type AllDocumentTypes = HomeDocument | StartDocument;
+export type AllDocumentTypes = ContentPageDocument | SettingsDocument;
 
 /**
- * Primary content in *Hero → Default → Primary*
+ * Primary content in *RichText → Default → Primary*
  */
-export interface HeroSliceDefaultPrimary {
+export interface RichTextSliceDefaultPrimary {
   /**
-   * Heading field in *Hero → Default → Primary*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: Heading
-   * - **API ID Path**: hero.default.primary.heading
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  heading: prismic.KeyTextField;
-
-  /**
-   * Body field in *Hero → Default → Primary*
+   * Body field in *RichText → Default → Primary*
    *
    * - **Field Type**: Rich Text
-   * - **Placeholder**: Body Text
-   * - **API ID Path**: hero.default.primary.body
+   * - **Placeholder**: *None*
+   * - **API ID Path**: rich_text.default.primary.body
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   body: prismic.RichTextField;
 }
 
 /**
- * Default variation for Hero Slice
+ * Default variation for RichText Slice
  *
  * - **API ID**: `default`
  * - **Description**: Default
  * - **Documentation**: https://prismic.io/docs/slice
  */
-export type HeroSliceDefault = prismic.SharedSliceVariation<
+export type RichTextSliceDefault = prismic.SharedSliceVariation<
   "default",
-  Simplify<HeroSliceDefaultPrimary>,
+  Simplify<RichTextSliceDefaultPrimary>,
   never
 >;
 
 /**
- * Slice variation for *Hero*
+ * Slice variation for *RichText*
  */
-type HeroSliceVariation = HeroSliceDefault;
+type RichTextSliceVariation = RichTextSliceDefault;
 
 /**
- * Hero Shared Slice
+ * RichText Shared Slice
  *
- * - **API ID**: `hero`
- * - **Description**: Hero
+ * - **API ID**: `rich_text`
+ * - **Description**: RichText
  * - **Documentation**: https://prismic.io/docs/slice
  */
-export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>;
+export type RichTextSlice = prismic.SharedSlice<
+  "rich_text",
+  RichTextSliceVariation
+>;
 
 declare module "@prismicio/client" {
   interface CreateClient {
@@ -201,17 +248,17 @@ declare module "@prismicio/client" {
 
   namespace Content {
     export type {
-      HomeDocument,
-      HomeDocumentData,
-      HomeDocumentDataSlicesSlice,
-      StartDocument,
-      StartDocumentData,
-      StartDocumentDataSlicesSlice,
+      ContentPageDocument,
+      ContentPageDocumentData,
+      ContentPageDocumentDataSlicesSlice,
+      SettingsDocument,
+      SettingsDocumentData,
+      SettingsDocumentDataNavigationItem,
       AllDocumentTypes,
-      HeroSlice,
-      HeroSliceDefaultPrimary,
-      HeroSliceVariation,
-      HeroSliceDefault,
+      RichTextSlice,
+      RichTextSliceDefaultPrimary,
+      RichTextSliceVariation,
+      RichTextSliceDefault,
     };
   }
 }
