@@ -1,0 +1,49 @@
+{
+  "id": "work_experience",
+  "type": "SharedSlice",
+  "name": "WorkExperience",
+  "description": "WorkExperience",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "item": {
+          "type": "Group",
+          "config": {
+            "label": "Item",
+            "repeat": true,
+            "fields": {
+              "employee": {
+                "type": "Text",
+                "config": {
+                  "label": "Employee",
+                  "placeholder": ""
+                }
+              },
+              "position": {
+                "type": "Text",
+                "config": {
+                  "label": "Position",
+                  "placeholder": ""
+                }
+              },
+              "duration": {
+                "type": "Text",
+                "config": {
+                  "label": "Duration",
+                  "placeholder": ""
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

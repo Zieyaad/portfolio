@@ -4,7 +4,10 @@ import type * as prismic from "@prismicio/client";
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
-type ContentPageDocumentDataSlicesSlice = RichTextSlice;
+type ContentPageDocumentDataSlicesSlice =
+  | WorkExperienceSlice
+  | HeroSlice
+  | RichTextSlice;
 
 /**
  * Content for Content Page documents
@@ -81,7 +84,7 @@ export interface SettingsDocumentDataNavigationItem {
    * - **API ID Path**: settings.navigation[].link
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  link: prismic.LinkField;
+  link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 
   /**
    * Label field in *Settings → Navigation*
@@ -183,6 +186,68 @@ export type SettingsDocument<Lang extends string = string> =
 export type AllDocumentTypes = ContentPageDocument | SettingsDocument;
 
 /**
+ * Primary content in *Hero → Default → Primary*
+ */
+export interface HeroSliceDefaultPrimary {
+  /**
+   * Heading field in *Hero → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.default.primary.heading
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  heading: prismic.RichTextField;
+
+  /**
+   * Image field in *Hero → Default → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.default.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<never>;
+
+  /**
+   * Body field in *Hero → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.default.primary.body
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  body: prismic.RichTextField;
+}
+
+/**
+ * Default variation for Hero Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type HeroSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<HeroSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *Hero*
+ */
+type HeroSliceVariation = HeroSliceDefault;
+
+/**
+ * Hero Shared Slice
+ *
+ * - **API ID**: `hero`
+ * - **Description**: Hero
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>;
+
+/**
  * Primary content in *RichText → Default → Primary*
  */
 export interface RichTextSliceDefaultPrimary {
@@ -227,6 +292,86 @@ export type RichTextSlice = prismic.SharedSlice<
   RichTextSliceVariation
 >;
 
+/**
+ * Item in *WorkExperience → Default → Primary → Item*
+ */
+export interface WorkExperienceSliceDefaultPrimaryItemItem {
+  /**
+   * Employee field in *WorkExperience → Default → Primary → Item*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: work_experience.default.primary.item[].employee
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  employee: prismic.KeyTextField;
+
+  /**
+   * Position field in *WorkExperience → Default → Primary → Item*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: work_experience.default.primary.item[].position
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  position: prismic.KeyTextField;
+
+  /**
+   * Duration field in *WorkExperience → Default → Primary → Item*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: work_experience.default.primary.item[].duration
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  duration: prismic.KeyTextField;
+}
+
+/**
+ * Primary content in *WorkExperience → Default → Primary*
+ */
+export interface WorkExperienceSliceDefaultPrimary {
+  /**
+   * Item field in *WorkExperience → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: work_experience.default.primary.item[]
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  item: prismic.GroupField<Simplify<WorkExperienceSliceDefaultPrimaryItemItem>>;
+}
+
+/**
+ * Default variation for WorkExperience Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type WorkExperienceSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<WorkExperienceSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *WorkExperience*
+ */
+type WorkExperienceSliceVariation = WorkExperienceSliceDefault;
+
+/**
+ * WorkExperience Shared Slice
+ *
+ * - **API ID**: `work_experience`
+ * - **Description**: WorkExperience
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type WorkExperienceSlice = prismic.SharedSlice<
+  "work_experience",
+  WorkExperienceSliceVariation
+>;
+
 declare module "@prismicio/client" {
   interface CreateClient {
     (
@@ -255,10 +400,19 @@ declare module "@prismicio/client" {
       SettingsDocumentData,
       SettingsDocumentDataNavigationItem,
       AllDocumentTypes,
+      HeroSlice,
+      HeroSliceDefaultPrimary,
+      HeroSliceVariation,
+      HeroSliceDefault,
       RichTextSlice,
       RichTextSliceDefaultPrimary,
       RichTextSliceVariation,
       RichTextSliceDefault,
+      WorkExperienceSlice,
+      WorkExperienceSliceDefaultPrimaryItemItem,
+      WorkExperienceSliceDefaultPrimary,
+      WorkExperienceSliceVariation,
+      WorkExperienceSliceDefault,
     };
   }
 }

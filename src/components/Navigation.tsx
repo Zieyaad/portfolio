@@ -31,7 +31,9 @@ const NavBar = ({ settings }: NavbarProps) => {
       <nav
         aria-label="Main"
         className={`rounded-full transition-all ease-in-out duration-1000 p-2 ${
-          isScrolled ? "bg-[#000000]/50 shadow-lg" : "bg-transparent"
+          isScrolled
+            ? "bg-navbar/50 shadow-lg backdrop-blur backdrop-saturate"
+            : "bg-transparent"
         }`}
       >
         <div className="relative overflow-hidden">
@@ -41,9 +43,9 @@ const NavBar = ({ settings }: NavbarProps) => {
                 <PrismicNextLink
                   field={item.link}
                   className={clsx(
-                    "flex px-2 mx-2 py-1 text-[16px] font-400 text-white transition-colors duration-200 tracking-wide rounded-full",
+                    "flex px-3 mx-2 py-1 text-base font-medium text-text transition-colors duration-200 tracking-wide rounded-full",
                     {
-                      "bg-white/10 transition-all duration-100 ease-in-out":
+                      "bg-navbar/50":
                         prismic.isFilled.link(item.link) &&
                         pathname === item.link.url,
                     },

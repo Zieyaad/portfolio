@@ -2,61 +2,195 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@font-face {
+  font-family: 'Acorn';
+  src: url('/fonts/Acorn-Bold.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --font-acorn: 'Acorn';
+  --violet-vortex: 61 82 160;
+  --skyward-blue: 112 145 230;
+  --clouded-slate: 134 151 196;
+  --lavender-mist: 173 187 218;
+  --frosted-lilac: 237 232 245;
+  --icy-periwinkle: 203 213 254;
+  --midnight-charcoal: 39 41 59;
+  --navbar: 255 255 255;
+  --background: var(--icy-periwinkle);
+  --text: var(--midnight-charcoal);
+  --gradient: linear-gradient(
+    to bottom,
+    rgba(203, 213, 254, 0) 0%,
+    rgba(203, 213, 254, 0.013) 9.7%,
+    rgba(203, 213, 254, 0.049) 18.1%,
+    rgba(203, 213, 254, 0.104) 25.5%,
+    rgba(203, 213, 254, 0.175) 31.9%,
+    rgba(203, 213, 254, 0.259) 37.7%,
+    rgba(203, 213, 254, 0.352) 43%,
+    rgba(203, 213, 254, 0.45) 47.9%,
+    rgba(203, 213, 254, 0.55) 52.8%,
+    rgba(203, 213, 254, 0.648) 57.7%,
+    rgba(203, 213, 254, 0.741) 63%,
+    rgba(203, 213, 254, 0.825) 68.7%,
+    rgba(203, 213, 254, 0.896) 75%,
+    rgba(203, 213, 254, 0.951) 82.2%,
+    rgba(203, 213, 254, 0.987) 90.5%,
+    rgb(203, 213, 254) 100%
+  );
 }
+
 
 main {
-  --size: 60px;
-  --line: color-mix(in lch, canvasText 15%, transparent);
-  height: 100vh;
-  width: 100vw;
+  //--size: 60px;
+  //--line: color-mix(in lch, canvasText 15%, transparent);
+  //height: 100vh;
+  //width: 100vw;
+  //background-color: #cbd5fe;
 
   &:after {
-    content: '';
-    display: block;
-    position: fixed;
-    height: 100vh;
-    width: 100vw;
-    background: linear-gradient(90deg, var(--line) 1px, transparent 1px var(--size)) 50% 50% / var(--size) var(--size), linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% / var(--size) var(--size);
-    mask: linear-gradient(-15deg, transparent 10%, white);
+    //content: '';
+    //display: block;
+    //position: fixed;
+    //height: 100vh;
+    //width: 100vw;
+    //background: linear-gradient(90deg, var(--line) 1px, transparent 1px var(--size)) 50% 50% / var(--size) var(--size), linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% / var(--size) var(--size);
+    //mask: linear-gradient(-15deg, transparent 10%, white);
   }
 }
 
-@keyframes gradientAnimation {
-  0% {
-    background-position: 0% 0%;
-  }
-  50% {
-    background-position: 100% 100%;
-  }
-  100% {
-    background-position: 0% 0%;
+.animated-gradient {
+  opacity: 0.5;
+  background: linear-gradient(-45deg, #3D52A0, #7091E6, #8697C4, #ADBBDA, #EDE8F5);
+  background-size: 300% 300%;
+  animation: gradient 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Common styles */
+.planet-container {
+  border-radius: 50%;
+  box-shadow: 5px -3px 10px 3px #5e90f1;
+  height: 500px;
+  overflow: hidden;
+  position: relative;
+  width: 500px;
+  z-index: 1;
+  &, * {
+    transition: all ease-in-out 0.3s;
   }
 }
 
-.animate-gradient {
-  animation: gradientAnimation 5s ease infinite;
-  background-size: 400% 400%; /* Adjust the scale of the gradient */
+.night, .day, .clouds, .inner-shadow {
+  position: absolute;
+  height: 500px;
+  width: 500px;
+  border-radius: 50%;
 }
 
-.content-layer {
-  position: fixed;
-  z-index: -10;
-  backdrop-filter: blur(10px);
-  background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.1),
-          rgba(255, 255, 255, 0.05)
-  );
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+/* Night and Day */
+.night {
+  animation: rotate-night 80s linear infinite;
+  background-image: url(https://www.solarsystemscope.com/textures/download/2k_earth_nightmap.jpg);
+  background-size: 200%;
+  left: 0;
+  background-position: 120% 0;
+  z-index: 3;
+  transition: background-position 1s ease;
+}
+
+.day {
+  animation: rotate-day 80s linear infinite;
+  background-image: url(https://www.solarsystemscope.com/textures/download/2k_earth_daymap.jpg);
+  background-size: 200%;
+  border-left: solid 1px black;
+  border-right: 0;
+  box-shadow: 5px 0 20px 10px #040615 inset;
+  left: 110px;
+  background-position: -120px 0;
+  z-index: 3;
+  transition: background-position 1s ease, box-shadow 1s ease;
+}
+
+.clouds {
+  animation: rotate-day 50s linear infinite, spin-clouds 100s ease-in-out infinite;
+  background-image: url(https://www.solarsystemscope.com/textures/download/2k_earth_clouds.jpg);
+  background-size: 200%;
+  opacity: 0.45;
+  box-shadow: 5px 0 20px 10px #040615 inset, -9px 0px 20px 10px #5e90f1 inset;
+  z-index: 3;
+  left: 110px;
+  transition: left 1s ease, opacity 1s ease;
+}
+
+
+.inner-shadow {
+  background: transparent;
+  box-shadow: -5px 0 10px 1px #152b57 inset, 5px 0 10px 1px #040615 inset;
+  z-index: 5;
+}
+
+/* Animation Keyframes */
+@keyframes rotate-day {
+  0% { background-position: 120% 0; }
+  100% { background-position: -80% 0; }
+}
+
+@keyframes rotate-night {
+  0% { background-position: calc(120% + 120px) 0; }
+  100% { background-position: calc(-80% + 120px) 0; }
+}
+
+@keyframes spin-clouds {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(20deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* Dark mode (swap day and night positions) */
+
+.dark {
+    --background: var(--midnight-charcoal);
+    --text: var(--frosted-lilac);
+    --navbar: 0 0 0;
+    --gradient: linear-gradient(
+            to bottom,
+            rgba(39, 41, 59, 0) 0%,
+            rgba(39, 41, 59, 0.013) 9.7%,
+            rgba(39, 41, 59, 0.049) 18.1%,
+            rgba(39, 41, 59, 0.104) 25.5%,
+            rgba(39, 41, 59, 0.175) 31.9%,
+            rgba(39, 41, 59, 0.259) 37.7%,
+            rgba(39, 41, 59, 0.352) 43%,
+            rgba(39, 41, 59, 0.45) 47.9%,
+            rgba(39, 41, 59, 0.55) 52.8%,
+            rgba(39, 41, 59, 0.648) 57.7%,
+            rgba(39, 41, 59, 0.741) 63%,
+            rgba(39, 41, 59, 0.825) 68.7%,
+            rgba(39, 41, 59, 0.896) 75%,
+            rgba(39, 41, 59, 0.951) 82.2%,
+            rgba(39, 41, 59, 0.987) 90.5%,
+            rgb(39, 41, 59) 100%
+    );
+
+  .clouds {
+    left: 0;
+  }
+
+   .night {
+    left: 110px;
+    background-position: -120px 0;
+    box-shadow: -3px 0 20px 10px #040615;
+    z-index: 4;
+    transition: left 1s ease, background-position 1s ease;
+  }
+
+   .day {
+    left: 0;
+    z-index: 3;
+    background-position: 120% 0;
+    transition: left 1s ease, background-position 1s ease;
+  }
 }

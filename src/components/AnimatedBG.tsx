@@ -1,157 +1,79 @@
 "use client";
+import { useEffect, useRef } from "react";
 
-import React, { useEffect, useRef } from "react";
-
-interface Blob {
-  x: number;
-  y: number;
-  size: number;
-  vx: number;
-  vy: number;
-  color: string;
-}
-
-function App() {
+const AnimatedBG = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const blobs = useRef<Blob[]>([
-    // Large, slow-moving background blobs
-    {
-      x: 0.3,
-      y: 0.3,
-      size: 0.8,
-      vx: 0.00025, // Doubled speed
-      vy: 0.0002, // Doubled speed
-      color: "#ff0080",
-    },
-    {
-      x: 0.7,
-      y: 0.5,
-      size: 0.7,
-      vx: -0.0002, // Doubled speed
-      vy: 0.00025, // Doubled speed
-      color: "#7928ca",
-    },
-    {
-      x: 0.4,
-      y: 0.7,
-      size: 0.75,
-      vx: 0.0003, // Doubled speed
-      vy: -0.000225, // Doubled speed
-      color: "#00ff88",
-    },
-    // Medium, slightly faster blobs for middle layer
-    {
-      x: 0.45,
-      y: 0.4,
-      size: 0.4,
-      vx: 0.000375, // Doubled speed
-      vy: 0.0003, // Doubled speed
-      color: "#ff0080",
-    },
-    {
-      x: 0.6,
-      y: 0.6,
-      size: 0.45,
-      vx: -0.00035, // Doubled speed
-      vy: 0.000325, // Doubled speed
-      color: "#7928ca",
-    },
-    // Small, faster blobs for detail
-    {
-      x: 0.5,
-      y: 0.5,
-      size: 0.2,
-      vx: 0.0005, // Doubled speed
-      vy: -0.00045, // Doubled speed
-      color: "#00ff88",
-    },
-  ]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    const context = canvas.getContext("2d");
+    if (!context) return;
 
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+    let time = 0;
+    let animationFrameId: number;
+
+    const color = (x: number, y: number, r: number, g: number, b: number) => {
+      if (!context) return;
+      context.fillStyle = `rgb(${r}, ${g}, ${b})`;
+      context.fillRect(x, y, 10, 10);
     };
 
-    window.addEventListener("resize", resize);
-    resize();
-
-    const drawLayer = (
-      blobs: Blob[],
-      blur: number,
-      composite: GlobalCompositeOperation,
-      alpha: number,
-    ) => {
-      ctx.save();
-      ctx.filter = `blur(${blur}px)`;
-      ctx.globalCompositeOperation = composite;
-      ctx.globalAlpha = alpha;
-
-      blobs.forEach((blob) => {
-        const gradient = ctx.createRadialGradient(
-          blob.x * canvas.width,
-          blob.y * canvas.height,
-          0,
-          blob.x * canvas.width,
-          blob.y * canvas.height,
-          blob.size * Math.max(canvas.width, canvas.height),
-        );
-
-        gradient.addColorStop(0, blob.color);
-        gradient.addColorStop(1, "transparent");
-
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-      });
-
-      ctx.restore();
+    const R = (x: number, y: number, time: number) => {
+      return Math.floor(192 + 64 * Math.cos((x * x - y * y) / 300 + time));
     };
 
-    const animate = () => {
-      // Update positions
-      blobs.current.forEach((blob) => {
-        blob.x += blob.vx;
-        blob.y += blob.vy;
-
-        // Bounce off edges with some padding
-        if (blob.x <= -0.2 || blob.x >= 1.2) blob.vx *= -1;
-        if (blob.y <= -0.2 || blob.y >= 1.2) blob.vy *= -1;
-      });
-
-      // Clear canvas with a dark background
-      ctx.fillStyle = "black";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      // Draw background layer - large, very blurry blobs
-      drawLayer(blobs.current.slice(0, 3), 150, "screen", 0.8);
-
-      // Draw middle layer - medium blobs with different blur and blend
-      drawLayer(blobs.current.slice(3, 5), 100, "screen", 0.6);
-
-      // Draw detail layer - small, less blurry blobs
-      drawLayer(blobs.current.slice(5), 50, "screen", 0.4);
-
-      requestAnimationFrame(animate);
+    const G = (x: number, y: number, time: number) => {
+      return Math.floor(
+        192 +
+          64 *
+            Math.sin(
+              (x * x * Math.cos(time / 4) + y * y * Math.sin(time / 3)) / 300,
+            ),
+      );
     };
 
-    animate();
+    const B = (x: number, y: number, time: number) => {
+      return Math.floor(
+        192 +
+          64 *
+            Math.sin(
+              5 * Math.sin(time / 9) +
+                ((x - 100) * (x - 100) + (y - 100) * (y - 100)) / 1100,
+            ),
+      );
+    };
+
+    const startAnimation = () => {
+      for (let x = 0; x <= 30; x++) {
+        for (let y = 0; y <= 30; y++) {
+          color(x, y, R(x, y, time), G(x, y, time), B(x, y, time));
+        }
+      }
+      time = time + 0.01;
+      animationFrameId = window.requestAnimationFrame(startAnimation);
+    };
+
+    startAnimation();
 
     return () => {
-      window.removeEventListener("resize", resize);
+      window.cancelAnimationFrame(animationFrameId);
     };
   }, []);
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
-      <canvas ref={canvasRef} className="fixed inset-0 w-full h-full" />
+    <div className="w-[100vw] h-[100vh] absolute z-10 left-0 right-0 top-0 bottom-0 overflow-hidden opacity-50">
+      <canvas
+        ref={canvasRef}
+        width={32}
+        height={32}
+        className="absolute top-0 left-0 w-full h-full z-10"
+        // style={{ filter: "blur(100px)" }}
+      />
+      <div className="absolute z-20 left-0 top-0 w-full h-full bg-gradient"></div>
     </div>
   );
-}
+};
 
-export default App;
+export default AnimatedBG;
