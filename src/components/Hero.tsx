@@ -1,5 +1,3 @@
-import { Heading } from "@/ui/Heading";
-
 function Hero() {
   return (
     <section className="container">

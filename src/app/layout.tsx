@@ -23,7 +23,6 @@ export default function RootLayout({
           type="font/woff2"
         />
       </Head>
-      {/*<body className="bg-[length:400%_400%] bg-gradient-to-br from-[#0B1437] via-[#1a237e] to-[#283593] animate-gradient flex items-center justify-center p-4 min-h-screen">*/}
       <body className="bg-background">
         <ThemeProvider
           attribute="class"
