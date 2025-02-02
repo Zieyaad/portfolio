@@ -2,7 +2,6 @@ import { Content, isFilled } from "@prismicio/client";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 import { PrismicNextImage } from "@prismicio/next";
 import { RichText } from "@/ui/RichText";
-import { Heading } from "@/ui/Heading";
 import clsx from "clsx";
 
 /**

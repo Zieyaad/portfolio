@@ -2,7 +2,6 @@ import "./globals.css";
 import { PrismicPreview } from "@prismicio/next";
 import { repositoryName } from "@/prismicio";
 import Header from "@/components/Header";
-import AnimatedBG from "@/components/AnimatedBG";
 import { ThemeProvider } from "next-themes";
 import Head from "next/head";
 
