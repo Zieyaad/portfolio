@@ -7,60 +7,150 @@
   src: url('/fonts/Acorn-Bold.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('/fonts/Lato-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+@layer components {
+  .hamburger-menu {
+    @apply relative w-[100px] h-[56px] flex justify-center items-center top-0 right-0 p-3;
+  }
+
+  .hamburger-menu svg {
+    @apply fill-none stroke-text stroke-[7px] rounded-full;
+  }
+
+  .hamburger-menu input {
+    @apply absolute h-full w-full z-[2] cursor-pointer opacity-0;
+  }
+
+  .hamburger-menu use:first-of-type {
+    @apply opacity-100 transition-all duration-200 ease-linear;
+    stroke-dashoffset: 221;
+    stroke-dasharray: 46 249;
+  }
+
+  .hamburger-menu input:checked + svg use:first-of-type {
+    @apply opacity-0 transition-all duration-[0.14s] ease-linear;
+    stroke-dashoffset: 175;
+    stroke-dasharray: 0 295;
+  }
+
+  .hamburger-menu use:last-of-type {
+    animation: stroke-animation-reverse 1.2s ease-out forwards;
+  }
+
+  .hamburger-menu input:checked + svg use:last-of-type {
+    animation: stroke-animation 1.2s ease-out forwards;
+  }
+
+  .we > div {
+    &:first-of-type {
+      @apply md:ml-auto;
+    }
+    &:nth-of-type(2) {
+      @apply md:ml-auto md:mr-[20%];
+    }
+    &:nth-of-type(3) {
+      @apply md:ml-[20%];
+    }
+    &:last-of-type {
+      @apply md:ml-0;
+    }
+  }
+}
+
+@keyframes stroke-animation {
+  0% {
+    stroke-dashoffset: 295;
+    stroke-dasharray: 25 270;
+  }
+  50% {
+    stroke-dashoffset: 68;
+    stroke-dasharray: 59 236;
+  }
+  65% {
+    stroke-dashoffset: 59;
+    stroke-dasharray: 59 236;
+  }
+  100% {
+    stroke-dashoffset: 68;
+    stroke-dasharray: 59 236;
+  }
+}
+
+@keyframes stroke-animation-reverse {
+  0% {
+    stroke-dashoffset: 68;
+    stroke-dasharray: 59 236;
+  }
+  50% {
+    stroke-dashoffset: 290;
+    stroke-dasharray: 25 270;
+  }
+  65% {
+    stroke-dashoffset: 295;
+    stroke-dasharray: 25 270;
+  }
+  100% {
+    stroke-dashoffset: 290;
+    stroke-dasharray: 25 270;
+  }
 }
 
 :root {
   --font-acorn: 'Acorn';
-  --violet-vortex: 61 82 160;
-  --skyward-blue: 112 145 230;
-  --clouded-slate: 134 151 196;
-  --lavender-mist: 173 187 218;
-  --frosted-lilac: 237 232 245;
-  --icy-periwinkle: 203 213 254;
-  --midnight-charcoal: 39 41 59;
+  --font-lato: 'Lato';
+
+  --color-paper: 246 247 249;
+  --color-navy-300: 215 223 234;
+  --color-navy-400: 173 188 209;
+  --color-navy-500: 75 108 155;
+  --color-navy-600: 58 84 120;
+  --color-navy-700: 35 56 49;
+  --color-navy-800: 15 23 42;
+
+  --color-hilite: 143 220 194;
+
+  --color-leather-1: 169 135 112;
+  --color-leather-2: 47 108 83;
+  --color-leather-3: 116 84 62;
+
+  --green: 2 90 78;
+
   --navbar: 255 255 255;
-  --background: var(--icy-periwinkle);
-  --text: var(--midnight-charcoal);
+  --background: var(--color-paper);
+  --text: var(--color-navy-700);
+  --accent: var(--green);
   --gradient: linear-gradient(
     to bottom,
-    rgba(203, 213, 254, 0) 0%,
-    rgba(203, 213, 254, 0.013) 9.7%,
-    rgba(203, 213, 254, 0.049) 18.1%,
-    rgba(203, 213, 254, 0.104) 25.5%,
-    rgba(203, 213, 254, 0.175) 31.9%,
-    rgba(203, 213, 254, 0.259) 37.7%,
-    rgba(203, 213, 254, 0.352) 43%,
-    rgba(203, 213, 254, 0.45) 47.9%,
-    rgba(203, 213, 254, 0.55) 52.8%,
-    rgba(203, 213, 254, 0.648) 57.7%,
-    rgba(203, 213, 254, 0.741) 63%,
-    rgba(203, 213, 254, 0.825) 68.7%,
-    rgba(203, 213, 254, 0.896) 75%,
-    rgba(203, 213, 254, 0.951) 82.2%,
-    rgba(203, 213, 254, 0.987) 90.5%,
-    rgb(203, 213, 254) 100%
+    rgba(var(--background), 0) 0%,
+    rgba(var(--background), 0.013) 9.7%,
+    rgba(var(--background), 0.049) 18.1%,
+    rgba(var(--background), 0.104) 25.5%,
+    rgba(var(--background), 0.175) 31.9%,
+    rgba(var(--background), 0.259) 37.7%,
+    rgba(var(--background), 0.352) 43%,
+    rgba(var(--background), 0.45) 47.9%,
+    rgba(var(--background), 0.55) 52.8%,
+    rgba(var(--background), 0.648) 57.7%,
+    rgba(var(--background), 0.741) 63%,
+    rgba(var(--background), 0.825) 68.7%,
+    rgba(var(--background), 0.896) 75%,
+    rgba(var(--background), 0.951) 82.2%,
+    rgba(var(--background), 0.987) 90.5%,
+    rgb(var(--background)) 100%
   );
 }
 
 
-main {
-  //--size: 60px;
-  //--line: color-mix(in lch, canvasText 15%, transparent);
-  //height: 100vh;
-  //width: 100vw;
-  //background-color: #cbd5fe;
-
-  &:after {
-    //content: '';
-    //display: block;
-    //position: fixed;
-    //height: 100vh;
-    //width: 100vw;
-    //background: linear-gradient(90deg, var(--line) 1px, transparent 1px var(--size)) 50% 50% / var(--size) var(--size), linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% / var(--size) var(--size);
-    //mask: linear-gradient(-15deg, transparent 10%, white);
-  }
-}
 
 .animated-gradient {
   opacity: 0.5;
@@ -69,91 +159,12 @@ main {
   animation: gradient 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-/* Common styles */
-.planet-container {
-  border-radius: 50%;
-  box-shadow: 5px -3px 10px 3px #5e90f1;
-  height: 500px;
-  overflow: hidden;
-  position: relative;
-  width: 500px;
-  z-index: 1;
-  &, * {
-    transition: all ease-in-out 0.3s;
-  }
-}
 
-.night, .day, .clouds, .inner-shadow {
-  position: absolute;
-  height: 500px;
-  width: 500px;
-  border-radius: 50%;
-}
-
-/* Night and Day */
-.night {
-  animation: rotate-night 80s linear infinite;
-  background-image: url(https://www.solarsystemscope.com/textures/download/2k_earth_nightmap.jpg);
-  background-size: 200%;
-  left: 0;
-  background-position: 120% 0;
-  z-index: 3;
-  transition: background-position 1s ease;
-}
-
-.day {
-  animation: rotate-day 80s linear infinite;
-  background-image: url(https://www.solarsystemscope.com/textures/download/2k_earth_daymap.jpg);
-  background-size: 200%;
-  border-left: solid 1px black;
-  border-right: 0;
-  box-shadow: 5px 0 20px 10px #040615 inset;
-  left: 110px;
-  background-position: -120px 0;
-  z-index: 3;
-  transition: background-position 1s ease, box-shadow 1s ease;
-}
-
-.clouds {
-  animation: rotate-day 50s linear infinite, spin-clouds 100s ease-in-out infinite;
-  background-image: url(https://www.solarsystemscope.com/textures/download/2k_earth_clouds.jpg);
-  background-size: 200%;
-  opacity: 0.45;
-  box-shadow: 5px 0 20px 10px #040615 inset, -9px 0px 20px 10px #5e90f1 inset;
-  z-index: 3;
-  left: 110px;
-  transition: left 1s ease, opacity 1s ease;
-}
-
-
-.inner-shadow {
-  background: transparent;
-  box-shadow: -5px 0 10px 1px #152b57 inset, 5px 0 10px 1px #040615 inset;
-  z-index: 5;
-}
-
-/* Animation Keyframes */
-@keyframes rotate-day {
-  0% { background-position: 120% 0; }
-  100% { background-position: -80% 0; }
-}
-
-@keyframes rotate-night {
-  0% { background-position: calc(120% + 120px) 0; }
-  100% { background-position: calc(-80% + 120px) 0; }
-}
-
-@keyframes spin-clouds {
-  0% { transform: rotate(0deg); }
-  50% { transform: rotate(20deg); }
-  100% { transform: rotate(0deg); }
-}
-
-/* Dark mode (swap day and night positions) */
 
 .dark {
-    --background: var(--midnight-charcoal);
-    --text: var(--frosted-lilac);
+    --background: var(--color-navy-700);
+    --accent: var(--color-hilite);
+    --text: var(--color-paper);
     --navbar: 0 0 0;
     --gradient: linear-gradient(
             to bottom,
@@ -175,22 +186,5 @@ main {
             rgb(39, 41, 59) 100%
     );
 
-  .clouds {
-    left: 0;
-  }
 
-   .night {
-    left: 110px;
-    background-position: -120px 0;
-    box-shadow: -3px 0 20px 10px #040615;
-    z-index: 4;
-    transition: left 1s ease, background-position 1s ease;
-  }
-
-   .day {
-    left: 0;
-    z-index: 3;
-    background-position: 120% 0;
-    transition: left 1s ease, background-position 1s ease;
-  }
 }

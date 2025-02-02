@@ -18,12 +18,12 @@ export const Heading = ({ as = "h1", children, className }: HeadingProps) => {
   const HeadingType: keyof JSX.IntrinsicElements = as;
 
   const headingSize = {
-    h1: "text-7xl",
-    h2: "text-3xl lg:text-6xl",
-    h3: "text-2xl lg:text-4xl",
-    h4: "text-xl lg:text-2xl",
-    h5: "text-2xl",
-    h6: "text-base leading-5 lg:text-lg lg:leading-5",
+    h1: "text-accent text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-9xl tracking-normal",
+    h2: "text-accent text-center text-3xl sm:text-5xl md:text-6xl tracking-wide",
+    h3: "text-accent text-left text-2xl sm:text-5xl tracking-wide leading-[1.2] sm:leading-[1.2]",
+    h4: "text-text text-xl lg:text-2xl",
+    h5: "text-text text-2xl",
+    h6: "text-text text-base leading-5 lg:text-lg lg:leading-5",
   };
 
   const headingClassNames = headingSize[as];

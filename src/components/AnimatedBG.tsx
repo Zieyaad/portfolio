@@ -21,13 +21,13 @@ const AnimatedBG = () => {
     };
 
     const R = (x: number, y: number, time: number) => {
-      return Math.floor(192 + 64 * Math.cos((x * x - y * y) / 300 + time));
+      return Math.floor(170 + 30 * Math.cos((x * x - y * y) / 300 + time));
     };
 
     const G = (x: number, y: number, time: number) => {
       return Math.floor(
-        192 +
-          64 *
+        160 +
+          40 *
             Math.sin(
               (x * x * Math.cos(time / 4) + y * y * Math.sin(time / 3)) / 300,
             ),
@@ -36,8 +36,8 @@ const AnimatedBG = () => {
 
     const B = (x: number, y: number, time: number) => {
       return Math.floor(
-        192 +
-          64 *
+        190 +
+          30 *
             Math.sin(
               5 * Math.sin(time / 9) +
                 ((x - 100) * (x - 100) + (y - 100) * (y - 100)) / 1100,
@@ -63,7 +63,7 @@ const AnimatedBG = () => {
   }, []);
 
   return (
-    <div className="w-[100vw] h-[100vh] absolute z-10 left-0 right-0 top-0 bottom-0 overflow-hidden opacity-50">
+    <div className="w-[100vw] h-[100vh] absolute z-10 left-0 right-0 top-0 bottom-0 overflow-hidden opacity-50 hidden">
       <canvas
         ref={canvasRef}
         width={32}

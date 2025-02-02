@@ -5,6 +5,7 @@ import type * as prismic from "@prismicio/client";
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
 type ContentPageDocumentDataSlicesSlice =
+  | FormSlice
   | WorkExperienceSlice
   | HeroSlice
   | RichTextSlice;
@@ -186,6 +187,48 @@ export type SettingsDocument<Lang extends string = string> =
 export type AllDocumentTypes = ContentPageDocument | SettingsDocument;
 
 /**
+ * Primary content in *Form → Default → Primary*
+ */
+export interface FormSliceDefaultPrimary {
+  /**
+   * Form Embed field in *Form → Default → Primary*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: form.default.primary.form_embed
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  form_embed: prismic.EmbedField;
+}
+
+/**
+ * Default variation for Form Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type FormSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<FormSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *Form*
+ */
+type FormSliceVariation = FormSliceDefault;
+
+/**
+ * Form Shared Slice
+ *
+ * - **API ID**: `form`
+ * - **Description**: Form
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type FormSlice = prismic.SharedSlice<"form", FormSliceVariation>;
+
+/**
  * Primary content in *Hero → Default → Primary*
  */
 export interface HeroSliceDefaultPrimary {
@@ -307,6 +350,22 @@ export interface WorkExperienceSliceDefaultPrimaryItemItem {
   employee: prismic.KeyTextField;
 
   /**
+   * Employee Link field in *WorkExperience → Default → Primary → Item*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: work_experience.default.primary.item[].employee_link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  employee_link: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
+
+  /**
    * Position field in *WorkExperience → Default → Primary → Item*
    *
    * - **Field Type**: Text
@@ -400,6 +459,10 @@ declare module "@prismicio/client" {
       SettingsDocumentData,
       SettingsDocumentDataNavigationItem,
       AllDocumentTypes,
+      FormSlice,
+      FormSliceDefaultPrimary,
+      FormSliceVariation,
+      FormSliceDefault,
       HeroSlice,
       HeroSliceDefaultPrimary,
       HeroSliceVariation,

@@ -25,6 +25,17 @@
                   "placeholder": ""
                 }
               },
+              "employee_link": {
+                "type": "Link",
+                "config": {
+                  "label": "Employee Link",
+                  "placeholder": "",
+                  "select": null,
+                  "allowTargetBlank": true,
+                  "allowText": true,
+                  "repeat": false
+                }
+              },
               "position": {
                 "type": "Text",
                 "config": {

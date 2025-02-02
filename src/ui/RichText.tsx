@@ -3,7 +3,9 @@ import { Heading } from "./Heading";
 
 export const RichText: JSXMapSerializer = {
   paragraph: ({ children }) => (
-    <p className="text-lg mb-6 last-of-type:mb-0">{children}</p>
+    <p className="text-text text-base md:text-lg lg:text-xl leading-normal md:leading-relaxed tracking-widest mb-5 last-of-type:mb-0">
+      {children}
+    </p>
   ),
   heading1: ({ children }) => (
     <Heading as="h1" className="mb-5">

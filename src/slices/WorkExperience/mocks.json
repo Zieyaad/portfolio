@@ -32,6 +32,18 @@
 									"value": "add",
 									"type": "Text"
 								}
+							],
+							[
+								"employee_link",
+								{
+									"key": "3460ffe5-226a-4c51-b3e7-f31ab15d9ae1",
+									"__TYPE__": "LinkContent",
+									"value": {
+										"__TYPE__": "ExternalLink",
+										"url": "https://prismic.io",
+										"text": "this"
+									}
+								}
 							]
 						]
 					}
